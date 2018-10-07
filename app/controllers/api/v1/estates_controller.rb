@@ -8,24 +8,30 @@ module Api
         render json: { status: 'Success', message: 'Estates List', data: estates }
       end
 
+      def show
+        success_response(@estate)
+      end
+
       def create
         estate = Estate.new(estate_params)
-        estate.save ? success_response(estate) : failure_response(estate)
+        estate.save ? success_response(estate) : failure_response
       end
 
       def update
-        estate.update_attributes(estate_params) ? success_response(estate) : failure_response(estate)
+        @estate.update_attributes(estate_params) ? success_response(@estate) : failure_response
       end
 
       def destroy
-        estate.destroy
+        @estate.destroy
         render json: { status: 'Success', message: 'Removed real estate from our list' }
       end
 
       private
 
       def find_real_estate
-        estate = Estate.find(params[:id])
+        @estate = Estate.where(id: params[:id])
+        return failure_response unless @estate.present?
+        @estate
       end
 
       def estate_params
@@ -37,10 +43,10 @@ module Api
       end
 
       def success_response(estate)
-        render json: { status: 'Success', message: 'Success Loading Of Real Estate', data: estate }
+        render json: { status: 'Success', message: 'Success Process', data: estate }
       end
 
-      def failure_response(estate)
+      def failure_response
         render json: { status: 'Failed', message: 'Something Went Wrong'}
       end
     end
