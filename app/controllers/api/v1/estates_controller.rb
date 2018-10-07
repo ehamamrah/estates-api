@@ -4,7 +4,7 @@ module Api
       before_action :find_real_estate, except: %i[index create]
 
       def index
-        estates = Estates.order('created_at DESC')
+        estates = Estate.order('created_at DESC')
         render json: { status: 'Success', message: 'Estates List', data: estates }
       end
 
