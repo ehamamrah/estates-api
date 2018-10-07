@@ -23,14 +23,14 @@ RSpec.describe Estate, type: :model do
                        city:             Faker::Address.city,
                        zip:              Faker::Address.zip,
                        state:            Faker::Address.state,
-                       beds:             3,
-                       baths:            2,
+                       beds:             [1, 2, 3].sample,
+                       baths:            [1, 2].sample,
                        longitude:        Faker::Address.longitude,
                        latitude:         Faker::Address.latitude,
-                       residential_type: 'Residential',
+                       residential_type: ['Residential', 'Condo', 'Multi-Family'].sample,
                        sale_date:        Date.today - 10.days,
-                       price:            59000.0,
-                       sq_ft:            1500)
+                       price:            [59000.0, 66000.0, 75000.0].sample,
+                       sq_ft:            [950, 1500, 1250, 754].sample)
       end
     end
 
