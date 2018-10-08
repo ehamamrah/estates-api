@@ -58,4 +58,34 @@ RSpec.describe Estate, type: :model do
       expect(Estate.type('Unknown').count).to eql(1)
     end
   end
+
+  describe '#Filtering' do
+    before(:each) do
+      3.times do
+        Estate.create!(street:           Faker::Address.street_name,
+                       city:             Faker::Address.city,
+                       zip:              Faker::Address.zip,
+                       state:            Faker::Address.state,
+                       beds:             [1, 2, 3].sample,
+                       baths:            [1, 2].sample,
+                       longitude:        Faker::Address.longitude,
+                       latitude:         Faker::Address.latitude,
+                       residential_type: ['Residential', 'Condo', 'Multi-Family'].sample,
+                       sale_date:        Date.today - 10.days,
+                       price:            [59000.0, 66000.0, 75000.0].sample,
+                       sq_ft:            [950, 1500, 1250, 754].sample)
+      end
+    end
+
+    it 'will return all records if filters are empty' do
+      expect(Estate.filter({}).count).to eql(Estate.all.count)
+    end
+
+    it 'will filter based on given details' do
+      new_estate = Estate.last
+      new_estate.update_attributes(price: 150000, sq_ft: 1800, residential_type: 'Beach House')
+      filtered_results = Estate.filter({ starting_price: 130000, starting_square: 1600, type: 'Beach House'})
+      expect(filtered_results).to include(new_estate)
+    end
+  end
 end
