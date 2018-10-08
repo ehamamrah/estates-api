@@ -37,5 +37,25 @@ RSpec.describe Estate, type: :model do
     it 'will return last created real estate based on ordered_by_creation_date scope' do
       expect(Estate.ordered_by_creation_date.first).to eq(Estate.last)
     end
+
+    it 'will return records based on given price range' do
+      expect(Estate.starting_price(59000).ending_price(80000).count).to eql(Estate.all.count)
+      new_modified_estate = Estate.last
+      new_modified_estate.update_attributes(price: 150000)
+      expect(Estate.starting_price(90000).ending_price(150000)).to include(new_modified_estate)
+    end
+
+    it 'will return records based on given price range' do
+      expect(Estate.starting_square(700).ending_square(2000).count).to eql(Estate.all.count)
+      new_modified_estate = Estate.last
+      new_modified_estate.update_attributes(sq_ft: 3000)
+      expect(Estate.starting_square(2500).ending_square(3000)).to include(new_modified_estate)
+    end
+
+    it 'will return records based on given residential type' do
+      new_modified_estate = Estate.last
+      new_modified_estate.update_attributes(residential_type: 'Unknown')
+      expect(Estate.type('Unknown').count).to eql(1)
+    end
   end
 end
