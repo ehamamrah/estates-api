@@ -1,7 +1,7 @@
 module Api
   module V1
     class EstatesController < ApplicationController
-      before_action :find_real_estate, except: %i[index create search]
+      before_action :find_real_estate, except: %i[index create search show]
       before_action :retrieve_estates_by_creation_date, only: %i[index search]
 
       def index
@@ -10,7 +10,10 @@ module Api
       end
 
       def show
+        find_real_estate
         success_response(@estate)
+      rescue ActiveRecord::RecordNotFound
+        failure_response
       end
 
       def create
@@ -19,7 +22,7 @@ module Api
       end
 
       def update
-        @estate.update_attributes(estate_params) ? success_response(@estate) : failure_response
+        @estate.update(estate_params) ? success_response(@estate) : failure_response
       end
 
       def destroy
@@ -45,14 +48,11 @@ module Api
       end
 
       def find_real_estate
-        @estate = Estate.where(id: params[:id])
-        return failure_response unless @estate.present?
-
-        @estate
+        @estate = Estate.find(params[:id])
       end
 
       def estate_params
-        params.require(:estate)
+        params.fetch(:estate, {})
               .permit(real_estate_fields)
       end
 
@@ -69,13 +69,13 @@ module Api
       end
 
       def success_response(estate)
-        render json: { status: 'Success',
+        render json: { status:  'Success',
                        message: 'Success Process',
-                       data: estate }
+                       data:    estate }
       end
 
       def failure_response
-        render json: { status: 'Failed',
+        render json: { status:  'Failed',
                        message: 'Something Went Wrong' }
       end
     end
