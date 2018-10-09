@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Estates', type: :request do
+RSpec.describe 'Api V1 Estates', type: :request do
   let(:api) { '/api/v1/' }
 
   describe 'GET /estates' do
@@ -96,6 +96,12 @@ RSpec.describe 'Estates', type: :request do
       json_response = JSON.parse(response.body)
       record_data   = json_response['data'].first
       expect(record_data['id']).to eql(record.id)
+    end
+
+    it 'will return failed for a record which not created' do
+      get "#{api}/estates/54879"
+      json_response = JSON.parse(response.body)
+      expect(json_response['status']).to eql('Failed')
     end
   end
 end
