@@ -1,24 +1,14 @@
-# README
+# API Simple Call
+- Getting Started:
+    * get '/api/v1/estates'      [index]
+    * get '/api/v1/estates/[id]' [Show]
+    * post '/api/v1/estates/', **Params are required** [Create]
+    * patch '/api/v1/estates/[id]' **Params are required** [Update]
+    * delete '/api/v1/estates/[id]' [Delete]
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Searching
+    * To Start searching
+      get '/api/v1/estates/search'
+    * Use [type='xxxx'] to get all records with specific type.
+    * Use [starting_price='xxxx' && ending_price='xxxx'] to get records with pricing range. [You can specify one only also]
+    * Use [starting_square='xxxx' && ending_square='xxxx'] to get records with square feet range. [You can specify one only also]
