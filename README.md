@@ -12,3 +12,12 @@
     * Use [type='xxxx'] to get all records with specific type.
     * Use [starting_price='xxxx' && ending_price='xxxx'] to get records with pricing range. [You can specify one only also]
     * Use [starting_square='xxxx' && ending_square='xxxx'] to get records with square feet range. [You can specify one only also]
+
+- Pagination
+    * get '/api/v1/estates?page=page_number'      [index]
+    * get '/api/v1/estates/search?starting_price=xxx&&type=xxxx&&page=page_number'      [Search]
+
+- Testing
+    - Model & Controller Tests written with RSpec.
+        - For testing: bundle exec rspec
+        - **Controller Specs are inside spec/requests/**
