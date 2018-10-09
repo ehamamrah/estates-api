@@ -29,7 +29,7 @@ RSpec.describe Estate, type: :model do
                        latitude:         Faker::Address.latitude,
                        residential_type: ['Residential', 'Condo', 'Multi-Family'].sample,
                        sale_date:        Date.today - 10.days,
-                       price:            [59000.0, 66000.0, 75000.0].sample,
+                       price:            [59_000.0, 66_000.0, 75_000.0].sample,
                        sq_ft:            [950, 1500, 1250, 754].sample)
       end
     end
@@ -39,10 +39,10 @@ RSpec.describe Estate, type: :model do
     end
 
     it 'will return records based on given price range' do
-      expect(Estate.starting_price(59000).ending_price(80000).count).to eql(Estate.all.count)
+      expect(Estate.starting_price(59_000).ending_price(80_000).count).to eql(Estate.all.count)
       new_modified_estate = Estate.last
-      new_modified_estate.update_attributes(price: 150000)
-      expect(Estate.starting_price(90000).ending_price(150000)).to include(new_modified_estate)
+      new_modified_estate.update_attributes(price: 150_000)
+      expect(Estate.starting_price(90_000).ending_price(150_000)).to include(new_modified_estate)
     end
 
     it 'will return records based on given price range' do
@@ -72,7 +72,7 @@ RSpec.describe Estate, type: :model do
                        latitude:         Faker::Address.latitude,
                        residential_type: ['Residential', 'Condo', 'Multi-Family'].sample,
                        sale_date:        Date.today - 10.days,
-                       price:            [59000.0, 66000.0, 75000.0].sample,
+                       price:            [59_000.0, 66_000.0, 75_000.0].sample,
                        sq_ft:            [950, 1500, 1250, 754].sample)
       end
     end
@@ -83,8 +83,13 @@ RSpec.describe Estate, type: :model do
 
     it 'will filter based on given details' do
       new_estate = Estate.last
-      new_estate.update_attributes(price: 150000, sq_ft: 1800, residential_type: 'Beach House')
-      filtered_results = Estate.filter({ starting_price: 130000, starting_square: 1600, type: 'Beach House'})
+      new_estate.update_attributes(price: 150_000,
+                                   sq_ft: 1800,
+                                   residential_type: 'Beach House')
+      filters = { starting_price: 130_000,
+                  starting_square: 1600,
+                  type: 'Beach House' }
+      filtered_results = Estate.filter(filters)
       expect(filtered_results).to include(new_estate)
     end
   end
