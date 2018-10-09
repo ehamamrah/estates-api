@@ -24,7 +24,8 @@ module Api
 
       def destroy
         @estate.destroy
-        render json: { status: 'Success', message: 'Removed real estate from our list' }
+        render json: { status: 'Success',
+                       message: 'Removed real estate from our list' }
       end
 
       def search
@@ -39,7 +40,8 @@ module Api
       end
 
       def paginate(estates)
-        estates.paginate(page: params[:page], per_page: 10)
+        estates.paginate(page: params[:page],
+                         per_page: 10)
       end
 
       def find_real_estate
@@ -50,11 +52,16 @@ module Api
       end
 
       def estate_params
-        params.require(:estate).permit(real_estate_fields)
+        params.require(:estate)
+              .permit(real_estate_fields)
       end
 
       def filtering_params
-        params.slice(:type, :starting_square, :ending_square, :starting_price, :ending_price)
+        params.slice(:type,
+                     :starting_square,
+                     :ending_square,
+                     :starting_price,
+                     :ending_price)
       end
 
       def real_estate_fields
@@ -62,11 +69,14 @@ module Api
       end
 
       def success_response(estate)
-        render json: { status: 'Success', message: 'Success Process', data: estate }
+        render json: { status: 'Success',
+                       message: 'Success Process',
+                       data: estate }
       end
 
       def failure_response
-        render json: { status: 'Failed', message: 'Something Went Wrong' }
+        render json: { status: 'Failed',
+                       message: 'Something Went Wrong' }
       end
     end
   end
