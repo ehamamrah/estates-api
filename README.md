@@ -21,3 +21,5 @@
     - Model & Controller Tests written with RSpec.
         - For testing: bundle exec rspec
         - **Controller Specs are inside spec/requests/**
+- _After Database Setup & Migration, Keept 'estates.csv' inside the project folder and run 'rails db:seed' to populate data into the database._
+
